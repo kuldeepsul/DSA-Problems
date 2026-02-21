@@ -14,4 +14,6 @@ public:
 
     bool isValidSudoku(vector<vector<char>>& board);
     vector<int> productExceptSelf(vector<int>& nums);
+    int longestConsecutive(vector<int>& nums);
+    bool isPalindrome(string s);
 };

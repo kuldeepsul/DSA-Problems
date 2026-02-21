@@ -184,3 +184,256 @@ vector<int> Array::productExceptSelf(vector<int>& nums)
     }
     return ans;
 }
+
+////////////////////////////////////////////////////////////////////////////////
+///////////////////////    Merge Sort     //////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+std::vector <int> Merge(std::vector <int>& leftarray, std::vector <int>& rightarray)
+{
+    std::vector <int> result;
+
+    // Check until one of the array is not zero
+
+    while (leftarray.size() && rightarray.size())
+    {
+        if (leftarray[0] <= rightarray[0])
+        {
+            result.push_back(leftarray[0]);
+            leftarray.erase(leftarray.begin());
+        }
+        else
+        {
+            result.push_back(rightarray[0]);
+            rightarray.erase(rightarray.begin());
+        }
+    }
+
+    // Once an array is zero push remaining array into results
+
+    if (leftarray.size())
+    {
+        while (leftarray.size())
+        {
+            result.push_back(leftarray[0]);
+            leftarray.erase(leftarray.begin());
+        }
+    }
+    if (rightarray.size())
+    {
+        while (rightarray.size())
+        {
+            result.push_back(rightarray[0]);
+            rightarray.erase(rightarray.begin());
+        }
+    }
+
+
+    return result;
+}
+
+std::vector <int> MergeSort(std::vector <int>& array)
+{
+    if (array.size() <= 1)
+    {
+        return array;
+    }
+    int length = int(array.size());
+
+    int mid = length / 2;
+    std::vector <int> left(array.begin(), array.begin() + mid);
+    std::vector <int> right(array.begin() + mid, array.end());
+
+    left = MergeSort(left);
+    right = MergeSort(right);
+
+    return Merge(left, right);
+}
+
+// For Strings
+
+std::string merge_s(std::string& left, std::string& right)
+{
+    std::string result;
+
+    while (!left.empty() && !right.empty())
+    {
+        if (left[0] <= right[0])
+        {
+            result.push_back(left[0]);
+            left.erase(left.begin());
+        }
+        else if (left[0] > right[0])
+        {
+            result.push_back(right[0]);
+            right.erase(right.begin());
+        }
+    }
+
+    while (right.length() != 0)
+    {
+        result.append(right);
+        right.clear();
+    }
+    while (left.length() != 0)
+    {
+        result.append(left);
+        left.clear();
+    }
+    return result;
+}
+
+std::string MergeSort_s(std::string& s)
+{
+    if (s.length() <= 1)
+    {
+        return s;
+    }
+    int mid = s.length() / 2;
+    std::string lefts(s.begin(), s.begin() + mid);
+    std::string rights(s.begin() + mid, s.begin() + s.length());
+
+    lefts = MergeSort_s(lefts);
+    rights = MergeSort_s(rights);
+
+    return merge_s(lefts, rights);
+}
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+///////////////////////    Quick Sort     //////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+int partition(std::vector <int>& array, int low, int high)
+{
+    int mid = low + (high - low) / 2;
+    int pivot = array[mid];
+
+    int i = low - 1;
+    int j = high + 1;
+
+    while (true)
+    {
+        do { i++; } while (array[i] < pivot);
+
+        do { j--; } while (array[j] > pivot);
+
+        if (j <= i)
+        {
+            return j;
+        }
+        // Swapping
+        int temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+
+}
+
+void QuickSort(std::vector <int>& array, int low, int high)
+{
+    if (low < high)
+    {
+        int p = partition(array, low, high);                                // Returns the final position of the pivot
+
+        QuickSort(array, low, p);
+        QuickSort(array, p + 1, high);
+
+    }
+}
+
+
+int Array::longestConsecutive(vector<int>& nums) {
+
+    QuickSort(nums, 0, nums.size() - 1);
+    int lcs{ 0 };
+    int temp_lcs{ 0 };
+    for (int i{ 0 }; i < nums.size(); i++)
+    {
+        if (i == 0)
+        {
+            temp_lcs = 1;
+        }
+        else
+        {
+            if (nums[i] == nums[i - 1] + 1)
+            {
+                temp_lcs += 1;
+            }
+            else if (nums[i] == nums[i - 1])
+            {
+                continue;
+            }
+            else
+            {
+                if (lcs < temp_lcs)
+                {
+                    lcs = temp_lcs;
+                    temp_lcs = 1;
+                }
+                else
+                {
+                    temp_lcs = 1;
+                }
+            }
+        }
+    }
+
+    if (temp_lcs > lcs)
+    {
+        lcs = temp_lcs;
+    }
+    return lcs;
+}
+
+bool Array::isPalindrome(string s)
+{
+    if (s.size() == 1 || s.size() == 0)
+    {
+        return true;
+    }
+
+    int left = 0;
+    int right = s.size() - 1;
+
+    while (left != right)
+    {
+        if (!std::isalpha(static_cast <unsigned char> (s[left])))
+        {
+            left++;
+            continue;
+        }
+        else
+        {
+            if (std::isupper(static_cast <unsigned char>(s[left])))
+            {
+                s[left] = std::tolower(static_cast <unsigned char>(s[left]));
+            }
+        }
+        if (!std::isalpha(static_cast <unsigned char> (s[right])))
+        {
+            right--;
+            continue;
+        }
+        else
+        {
+            if (std::isupper(static_cast <unsigned char>(s[right])))
+            {
+                s[right] = std::tolower(static_cast <unsigned char>(s[right]));
+            }
+        }
+
+        if (s[left] == s[right])
+        {
+            left++;
+            right++;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    return true;
+
+}
