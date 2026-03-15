@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include <vector>
 #include <string>
 #include <map>
@@ -16,4 +17,12 @@ public:
     vector<int> productExceptSelf(vector<int>& nums);
     int longestConsecutive(vector<int>& nums);
     bool isPalindrome(string s);
+    std::vector <int> twoSum(std::vector<int>& numbers, int target);
 };
+
+int BinSearch (std::vector <int>& nums, int low, int high, int value);
+
+int findMin(std::vector <int>& nums);
+int calculate_time(std::vector <int>& nums, int rate);
+int minEatingSpeed(vector<int>& piles, int h);
+int search(vector<int>& nums, int target);

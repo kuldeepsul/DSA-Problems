@@ -437,3 +437,175 @@ bool Array::isPalindrome(string s)
     return true;
 
 }
+
+std::vector <int> Array::twoSum(std::vector<int>& numbers, int target)
+{
+    int i = 0;
+    int j = static_cast <int>(numbers.size() - 1);
+
+    while (numbers[i] + numbers[j] != target)
+    {
+        if ((numbers[i] + numbers[j]) > target)
+        {
+            j--;
+        }
+        else if ((numbers[i] + numbers[j]) < target)
+        {
+            i++;
+        }
+    }
+    return { i + 1 , j + 1 };
+}
+
+int BinSearch(std::vector <int>& nums, int low, int high, int value)
+{
+    if (low == high)
+    {
+        if (nums[low] == value)
+        {
+            return low + 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    int mid = low + (high - low) / 2;
+    if (nums[mid] > value)
+    {
+        BinSearch(nums, low, mid, value);
+    }
+    else if (nums[mid] < value)
+    {
+        BinSearch(nums, mid + 1, high, value);
+    }
+    else
+    {
+        return mid + 1;
+    }
+}
+
+int findMin(std::vector <int>& nums)
+{
+    if (nums[0] < nums[nums.size() - 1])
+    {
+        return nums[0];
+    }
+    else if (nums.size() == 2)
+    {
+        return std::min(nums[0], nums[1]);
+    }
+
+    int left = 0;
+    int right = nums.size() - 1;
+    int mid = 0;
+    int result = nums[left];
+
+    while (left < right)
+    {
+        mid = left + (right - left) / 2;
+
+        if (nums[right] < nums[mid])
+        {
+            left = mid + 1;
+            result = std::min(nums[left], result);
+        }
+        else
+        {
+            result = std::min(nums[mid], result);
+            right = mid;
+        }
+    }
+    return result;
+}
+
+// Koko Eating Banana
+
+int calculate_time(std::vector <int>& nums, int rate)
+{
+    int time{ 0 };
+    for (int i{ 0 }; i < nums.size(); i++)
+    {
+        time += std::ceil(float(nums[i]) / float(rate));
+    }
+    return time;
+}
+int minEatingSpeed(vector<int>& piles, int h)
+{
+    int sum{ 0 };
+    int maxk{ 0 };
+    for (int n : piles)
+    {
+        sum += n;
+        maxk = std::max(n, maxk);
+    }
+    int mink = std::ceil(float(sum) /float(h));
+
+    int l = mink;
+    int r = maxk;
+    int mid = 0;
+    int time = 0;
+    int kopt = mink;
+
+
+
+    while (true)
+    {
+        mid = l + (r - l) / 2;
+
+        time = calculate_time(piles, mid);
+
+        if (time > h)
+        {
+            l = mid + 1;
+        }
+        else 
+        {
+            r = mid -1;
+            kopt = std::min(kopt, mid);
+        }
+
+    }
+
+}
+
+int search(vector<int>& nums, int target)
+{
+    int left = 0;
+    int right = nums.size() - 1;
+    int mid = 0;
+
+    while (left < right)
+    {
+        mid = left + (right - left) / 2;
+
+        if (nums[right] < nums[mid])                        // We are in the 1 st half of array.
+        {
+            std::cout << "we are in 1st half" << std::endl;
+
+            if (target < nums[left])                
+            {
+                std::cout << "target must be to the right" << std::endl;
+                left = mid + 1;
+            }
+            else if (target > nums[mid])
+            {
+                std::cout << "target must be to the right" << std::endl;
+
+            }
+            else
+            {
+                return mid;
+            }
+        }
+        else if (nums[right] > nums[mid])                   // We are in the 2 nd half of array.
+        {
+            std::cout << "we are in 2nd half" << std::endl;
+        }
+        else
+        {
+            return nums[mid];
+        }
+    }
+
+}
