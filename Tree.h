@@ -12,5 +12,10 @@ struct TreeNode {
 public:
 	TreeNode* invertTree(TreeNode* root);
 	int maxDepth(TreeNode* root);
+	int lengthofBinaryTree(TreeNode* root);
+	int diameterOfBinaryTree(TreeNode* root);
+	bool isBalanced(TreeNode* root);
+	bool isSameTree(TreeNode* p, TreeNode* q);
+	bool checknode(TreeNode* p, TreeNode* q);
 	
 };

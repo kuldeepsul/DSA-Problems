@@ -2,16 +2,29 @@
 #include <vector>
 #include "Array.h"
 #include "Linked_List.h"
+#include "Tree.h"
 
 int main()
 {
-	std::vector <int> piles1 = { 3,4,5,6,1,2 };
-	std::vector <int> piles2 = { 4,5,0,1,2,3 };
-	std::vector <int> piles3 = { 2,1 };
-	std::vector <int> piles4 = { 4,5,6,7,0,1,2 };
-	std::vector <int> piles5 = { 2,3,1 };
+	TreeNode* n1 = new TreeNode(1);
+	TreeNode* n2 = new TreeNode(2);
+	TreeNode* n3 = new TreeNode(3);
+	
 
-	int result1 = search(piles1,1);
+	n1->left = n2;
+	n1->right = n3;
+	
+
+	TreeNode* p1 = new TreeNode(1);
+	TreeNode* p2 = new TreeNode(2);
+	TreeNode* p3 = new TreeNode(3);
+
+	p1->left = p2;
+	p1->right = p3;
+
+
+
+	bool result = n1->isSameTree(n1,p1);
 
 
 	return 0;
