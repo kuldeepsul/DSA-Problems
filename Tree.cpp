@@ -129,111 +129,44 @@ int TreeNode::diameterOfBinaryTree(TreeNode* root)
     return std::max(child, parent);
 }
 
+int TreeNode::checkHeight(TreeNode* root)
+{
+    if (!root)
+    {
+        return 0;
+    }
+    int l = checkHeight(root->left);
+    if (l == -1)
+    {
+        return -1;
+    }
+    int r = checkHeight(root->right);
+    if (r == -1)
+    {
+        return -1;
+    }
+    if (std::abs(l - r) > 1)
+    {
+        return -1;
+    }
+
+    return 1 + std::max(l, r);
+}
+
 bool TreeNode::isBalanced(TreeNode* root)
 {
-    if (root == nullptr)
-    {
-        return true;
-    }
-
-    int l, r;
-    if (root->left == nullptr && root->right == nullptr)
-    {
-        return true;
-    }
-    else if (root->left == nullptr)
-    {
-        if (isBalanced(root->right))
-        {
-            r = 1 + lengthofBinaryTree(root->right);
-            if (r > 1)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
-        else
-        {
-            return false;
-        }
-
-    }
-    else if (root->right == nullptr)
-    {
-        if (isBalanced(root->left))
-        {
-            l = 1 + lengthofBinaryTree(root->left);
-            if (l > 1)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
-        else
-        {
-            return false;
-        }
-
-    }
-    else
-    {
-        if (isBalanced(root->left) && isBalanced(root->right))
-        {
-            l = lengthofBinaryTree(root->left);
-            r = lengthofBinaryTree(root->right);
-
-            if (l - r > 1 || r - l > 1)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
-        else
-        {
-            false;
-        }
-    }
-
+    return checkHeight(root) != -1;
 }
 
 bool TreeNode::checknode(TreeNode* p, TreeNode* q)
 {
-
-    if (p == nullptr)
-    {   
-        if (q)
-        {
-            return false;
-        }
-
-    }
-    else if (q == nullptr)
-    {
-        if (p)
-        {
-            return false;
-        }
-    }
-    else if ( p == nullptr && q == nullptr)
+    if (!p && !q)
     {
         return true;
     }
-    else
+    else if (p && q)
     {
-        if (p->val != q->val)
-        {
-            return false;
-        }
-        else
+        if (p->val == q->val)
         {
             if (checknode(p->left, q->left))
             {
@@ -241,21 +174,53 @@ bool TreeNode::checknode(TreeNode* p, TreeNode* q)
                 {
                     return true;
                 }
-                else
-                {
-                    return false;
-                }
             }
-            else
-            {
-                return false;
-            }
-
         }
     }
+
+
+
+    return false;
+
 }
 
 bool TreeNode::isSameTree(TreeNode* p, TreeNode* q)
 {
     return checknode(p, q);
 }
+
+bool TreeNode::isSubtree(TreeNode* root, TreeNode* subRoot)
+{
+    if (!root && !subRoot)
+    {
+        return true;
+    }
+
+    if (checknode(root, subRoot))
+    {
+        return true;
+    }
+    else
+    {
+        if (root->left)
+        {
+            if (isSubtree(root->left, subRoot))
+            {
+                return true;
+            }
+        }
+        else if (root->right)
+        {
+            if (isSubtree(root->right, subRoot))
+            {
+                return true;
+            }
+        }
+
+    }
+
+
+
+    return false;
+}
+

@@ -14,8 +14,10 @@ public:
 	int maxDepth(TreeNode* root);
 	int lengthofBinaryTree(TreeNode* root);
 	int diameterOfBinaryTree(TreeNode* root);
+	int checkHeight(TreeNode* root);
 	bool isBalanced(TreeNode* root);
 	bool isSameTree(TreeNode* p, TreeNode* q);
 	bool checknode(TreeNode* p, TreeNode* q);
-	
+	bool isSubtree(TreeNode* root, TreeNode* subRoot);
+
 };
