@@ -1,5 +1,7 @@
 #pragma once
 #include <iostream>
+#include <vector>
+#include <deque>
 
 struct TreeNode {
 	int val;
@@ -19,5 +21,10 @@ public:
 	bool isSameTree(TreeNode* p, TreeNode* q);
 	bool checknode(TreeNode* p, TreeNode* q);
 	bool isSubtree(TreeNode* root, TreeNode* subRoot);
+	TreeNode* searchLCA(TreeNode* root, TreeNode* p, TreeNode* q);
+	TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q);
+	std::vector<std::vector<int>> levelOrder(TreeNode* root);
+
+
 
 };

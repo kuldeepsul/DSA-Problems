@@ -224,3 +224,97 @@ bool TreeNode::isSubtree(TreeNode* root, TreeNode* subRoot)
     return false;
 }
 
+TreeNode* TreeNode::searchLCA(TreeNode* root, TreeNode* p ,TreeNode* q)
+{
+    if (!root)
+    {
+        return root;
+    }
+    if (root->val < p->val && root->val < q->val)
+    {
+        return searchLCA(root->right,p,q);
+    }
+    else if (root->val > p->val && root->val > q->val)
+    {
+        return searchLCA(root->left,p,q);
+    }
+    else
+    {
+        return root;
+    }
+}
+
+TreeNode* TreeNode::lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q)
+{
+    return searchLCA(root,p,q);
+}
+
+std::vector<std::vector<int>> TreeNode::levelOrder(TreeNode* root)
+{
+    std::vector <std::vector <int>> result;
+    std::vector <int> level;
+    std::deque <TreeNode*> q1;
+    std::deque <TreeNode*> q2;
+
+    q1.push_back(root);
+
+
+    bool done = false;
+
+    while (!done)
+    {
+
+        if (!q1.size() && !q2.size())
+        {
+            done = true;
+        }
+
+        while (q1.size())
+        {
+            if (q1.front()->left)
+            {
+                q2.push_back(q1.front()->left);
+            }
+
+            if (q1.front()->right)
+            {
+                q2.push_back(q1.front()->right);
+            }
+
+            level.push_back(q1.front()->val);
+            q1.pop_front();
+
+        }
+        if (level.size())
+        {
+            result.push_back(level);
+            level.clear();
+        }
+
+
+        while (q2.size())
+        {
+            if (q2.front()->left)
+            {
+                q1.push_back(q2.front()->left);
+            }
+            if (q2.front()->right)
+            {
+                q1.push_back(q2.front()->right);
+            }
+
+            level.push_back(q2.front()->val);
+            q2.pop_front();
+
+        }
+
+        if (level.size())
+        {
+            result.push_back(level);
+            level.clear();
+        }
+    }
+
+    return result;
+}
+
