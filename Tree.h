@@ -24,6 +24,13 @@ public:
 	TreeNode* searchLCA(TreeNode* root, TreeNode* p, TreeNode* q);
 	TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q);
 	std::vector<std::vector<int>> levelOrder(TreeNode* root);
+	TreeNode* findLowest(TreeNode* root);
+	TreeNode* findHighest(TreeNode* root);
+	bool isValidBST(TreeNode* root);
+	void DFSTraversal(TreeNode* root, std::vector <int>& list);
+	bool isValidBST2(TreeNode* root);
+	int noOfGoodNodes(TreeNode* root, int cur_max);
+	int goodNodes(TreeNode* root);
 
 
 

@@ -318,3 +318,140 @@ std::vector<std::vector<int>> TreeNode::levelOrder(TreeNode* root)
     return result;
 }
 
+TreeNode* TreeNode::findLowest(TreeNode* root)
+{
+    if (root->left)
+    {
+        return findLowest(root->left);
+    }
+    else
+    {
+        return root;
+    }
+}
+TreeNode* TreeNode::findHighest(TreeNode* root)
+{
+    if (root->right)
+    {
+        return findHighest(root->right);
+    }
+    else
+    {
+        return root;
+    }
+}
+
+bool TreeNode::isValidBST(TreeNode* root)
+{
+    if (!root)
+    {
+        return true;
+    }
+
+    if (root->left)
+    {
+        if (findHighest(root->left)->val >= root->val)
+        {
+            return false;
+        }
+    }
+    if (root->right)
+    {
+        if (findLowest(root->right)->val <= root->val)
+        {
+            return false;
+        }
+    }
+    else if (!root->left && !root->right)
+    {
+        return true;
+    }
+
+    if (isValidBST(root->left) && isValidBST(root->right))
+    {
+        return true;
+    }
+
+    return false;
+}
+
+void TreeNode::DFSTraversal(TreeNode* root, std::vector <int>& list)
+{
+    if (!root)
+    {
+        return;
+    }
+    else
+    {
+        DFSTraversal(root->left, list);
+        list.push_back(root->val);
+        DFSTraversal(root->right, list);
+
+    }
+}
+
+bool TreeNode::isValidBST2(TreeNode* root)
+{
+    std::vector <int> list;
+    DFSTraversal(root, list);
+
+    int i = 1;
+    int max = list[0];
+    bool done = false;
+
+    while (true)
+    {
+        if (i == list.size())
+        {
+            break;
+        }
+
+        if (list[i - 1] < list[i])
+        {
+            i++;
+        }
+        else
+        {
+            return false;
+        }
+
+    }
+    return true;
+}
+
+int TreeNode::noOfGoodNodes(TreeNode* root,int cur_max)
+{
+    int left = 0;
+    int right = 0;
+    int cur = 0;
+
+    if (!root)
+    {
+        return 0;
+    }
+
+    if (root->val >= cur_max)
+    {
+        cur_max = root->val;
+        cur = 1;
+
+    }
+
+    if (root->left)
+    {
+        left = noOfGoodNodes(root->left, cur_max);
+    }
+
+    if (root->right)
+    {
+        right = noOfGoodNodes(root->right, cur_max);
+    }
+
+    return cur + left + right;
+
+}
+int TreeNode::goodNodes(TreeNode* root)
+{
+    return noOfGoodNodes(root,root->val);
+}
+
