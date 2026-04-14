@@ -609,3 +609,77 @@ int search(vector<int>& nums, int target)
     }
 
 }
+
+std::vector <int> merge2(std::vector <int> left,std::vector<int> right)
+{
+    if (right.size() == 0 && left.size() == 0)
+    {
+        return {};
+    }
+    else if (left.size() == 0)
+    {
+        return right;
+    }
+    else if (right.size() == 0)
+    {
+        return left;
+    }
+    else
+    {
+        int i = 0;
+        int j = 0;
+        std::vector <int> result;
+        while (true)
+        {
+            if (i >= left.size())
+            {
+                while (j >= right.size())
+                {
+                    result.push_back(right[j]);
+                    return result;
+                }
+            }
+            if (j >= right.size())
+            {
+                while (i >= left.size())
+                {
+                    result.push_back(left[i]);
+                    return result;
+                }
+            }
+            if (i >= left.size() && j >= right.size())
+            {
+                return result;
+            }
+
+            if (left[i] >= right[j])
+            {
+                result.push_back(right[j]);
+                j++;
+            }
+            else
+            {
+                result.push_back(left[i]);
+                i++;
+            }
+        }
+    }
+    
+}
+
+std::vector <int> mergesort2(std::vector<int> nums,int low , int high)
+{
+
+
+    int mid = low + (high - low) / 2;
+
+    if (mid == low || mid == high)
+    {
+        return nums;
+    }
+
+    std::vector left = mergesort2(nums,low,mid-1);
+    std::vector right = mergesort2(nums,mid,high);
+
+    return merge2(left,right);
+}

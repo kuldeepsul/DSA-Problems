@@ -26,3 +26,7 @@ int findMin(std::vector <int>& nums);
 int calculate_time(std::vector <int>& nums, int rate);
 int minEatingSpeed(vector<int>& piles, int h);
 int search(vector<int>& nums, int target);
+std::vector <int> Merge(std::vector <int>& leftarray, std::vector <int>& rightarray);
+std::vector <int> MergeSort(std::vector <int>& array);
+
+std::vector <int> mergesort2(std::vector<int> nums, int low, int high);
