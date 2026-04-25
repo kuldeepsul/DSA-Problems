@@ -9,13 +9,13 @@
 
 int main()
 {
-	std::vector <int> data = { 9,2,2,4,6,1,5 };
-	std::vector<std::vector<char>> board = {
-		{'A','B','C','E'},
-		{'S','F','C','S'},
-		{'A','D','E','E'}
+	std::vector<std::vector<char>> grid = {
+		{'1', '1', '0', '0', '1'},
+		{'1', '1', '0', '0', '1'},
+		{'0', '0', '1', '0', '0'},
+		{'0', '0', '0', '1', '1'}
 	};
 	
-	bool res = Backtracking::exist(board,"ABCD");
+	int res = Backtracking::numIslands(grid);
 	return 0;
 };

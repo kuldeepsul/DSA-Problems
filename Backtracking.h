@@ -346,35 +346,102 @@ public:
         return search(board,word,i,j);
     }
 
-    static void getcombinations(int i, int j, std::vector<std::string>& res, std::string& temp, const std::vector <std::string> &input)
+    static void mapisland(std::map<std::pair<int, int>, int>& imap, int curi, int curj, std::vector<std::vector<char>>& grid)
     {
-        for (int k = i; k < input.size(); k++)
+        imap[{curi, curj}]++;
+        if (curi != 0)
         {
-            for (int l = j; l < input[i].size(); l++)
+            // up
+            if (grid[curi - 1][curj] == '1')
             {
+                auto it = imap.find({curi-1,curj});
+                if (it == imap.end())
+                {
+                    mapisland(imap, curi - 1, curj, grid);
+                }
+            }
+        }
+        if (curi != grid.size()-1)
+        {
+            // down
+            if (grid[curi + 1][curj] == '1')
+            {
+                auto it = imap.find({ curi + 1,curj });
+                if (it == imap.end())
+                {
+                    mapisland(imap, curi + 1, curj, grid);
+                }
+            }
+        }
+        if (curj != 0)
+        {
+            // left
+            if (grid[curi][curj -1 ] == '1')
+            {
+                auto it = imap.find({ curi,curj-1 });
+                if (it == imap.end())
+                {
+                    mapisland(imap, curi, curj-1, grid);
+                }
+            }
+        }
+        if (curj != grid[0].size()-1)
+        {
+            // right
+            if (grid[curi][curj+1] == '1')
+            {
+                auto it = imap.find({ curi,curj+1});
+                if (it == imap.end())
+                {
+                    mapisland(imap, curi, curj+1, grid);
+                }
+            }
+        }
+        return;
+    }
 
+    static void searchgrid(std::vector<std::map<std::pair<int, int>, int>>& islands, std::vector<std::vector<char>>& grid)
+    {
+        for (int i = 0; i < grid.size(); i++)
+        {
+            for (int j = 0; j < grid[i].size(); j++)
+            {
+                if (grid[i][j] == '1')
+                {
+                    bool newislandfound = true;
+                    for (int k = 0; k < islands.size(); k++)
+                    {
+                        
+                        if (!islands.size())
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            auto it = islands[k].find({ i,j });
+                            if (it != islands[k].end())
+                            {
+                                newislandfound = false;
+                                break;
+                            }
+                        }
+                    }
+                    if (newislandfound)
+                    {
+                        std::map <std::pair<int, int>, int>newisland;
+                        islands.push_back(newisland);
+                        mapisland(islands[islands.size() - 1], i, j, grid);
+                    }
+                }
             }
         }
     }
 
-    static std::vector<std::string> LetterCombinations(std::string digit)
+    static int numIslands(std::vector<std::vector<char>>& grid)
     {
-        std::unordered_map <char,std::string> alphamap;
-        alphamap['2'] = "abc";
-        alphamap['3'] = "def";
-        alphamap['4'] = "ghi";
-        alphamap['5'] = "jkl";
-        alphamap['6'] = "mno";
-        alphamap['7'] = "pqrs";
-        alphamap['8'] = "tuv";
-        alphamap['9'] = "wxyz";
-        std::vector <std::string> res;
-        std::string temp;
-        std::vector <std::string> input;
-        for (auto it = alphamap.begin(); it != alphamap.end(); it++)
-        {
-            input.push_back(it->second);
-        }
-        getcombinations(0,0, res, temp, input);
+        std::vector<std::map<std::pair<int, int>, int>> islands;
+        searchgrid(islands,grid);
+        return islands.size();
+
     }
 };
