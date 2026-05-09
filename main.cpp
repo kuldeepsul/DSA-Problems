@@ -5,17 +5,15 @@
 #include <fstream>
 #include <cstdlib>
 #include <algorithm>
-#include "Backtracking.h"
+#include "Graph.h"
 
 int main()
 {
-	std::vector<std::vector<char>> grid = {
-		{'1', '1', '0', '0', '1'},
-		{'1', '1', '0', '0', '1'},
-		{'0', '0', '1', '0', '0'},
-		{'0', '0', '0', '1', '1'}
+
+	std::vector<std::vector<int>> prereq = {
+		{1, 2}, {1, 3}, {1, 4} , {3,4} , {4,5}
 	};
 	
-	int res = Backtracking::numIslands(grid);
+	std::vector <int> res = Node::findRedundantConnection(prereq);
 	return 0;
 };
