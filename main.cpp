@@ -7,13 +7,15 @@
 #include <algorithm>
 #include "Graph.h"
 
+
 int main()
 {
-
-	std::vector<std::vector<int>> prereq = {
-		{1, 2}, {1, 3}, {1, 4} , {3,4} , {4,5}
-	};
-	
-	std::vector <int> res = Node::findRedundantConnection(prereq);
-	return 0;
-};
+    int i = 0;
+    unsigned char a  = i ;
+    for (int j = 0; j < 256; ++j)
+    {
+        std::cout << a << " : " << int{ a } << std::endl;
+        a++;
+    }
+    return 0;
+}

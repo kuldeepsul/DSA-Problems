@@ -49,4 +49,7 @@ public:
 
     static bool dfsredcon(int prev, int cur, std::unordered_set <int>& curpath, std::unordered_set <int>& visited, std::unordered_map <int, std::deque<int>>& childmap);
     static std::vector<int> findRedundantConnection(std::vector<std::vector<int>>& edges);
+
+    static bool dfsreplace(int i, int j, std::map<std::pair<int, int>, int>& visited, std::vector<std::vector<char>>& board,bool& isSorrounded, std::vector<std::pair<int, int>>& curisland);
+    static void solve(std::vector<std::vector<char>>& board);
 };

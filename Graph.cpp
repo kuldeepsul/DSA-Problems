@@ -685,7 +685,7 @@ bool Node::dfsredcon(int prev, int cur, std::unordered_set <int>& curpath, std::
 	return true;
 }
 
-std::vector<int> Node::findRedundantConnection(std::vector<std::vector<int>>& edges) 
+std::vector<int> Node::findRedundantConnection(std::vector<std::vector<int>>& edges)
 {
 	{
 		std::unordered_map <int, std::deque<int>> childmap;
@@ -710,11 +710,104 @@ std::vector<int> Node::findRedundantConnection(std::vector<std::vector<int>>& ed
 
 				if (ita != cur.end() && itb != cur.end())
 				{
-					result = {i[0],i[1]};
+					result = { i[0],i[1] };
 				}
 			}
 		}
 
 		return result;
+	}
+};
+
+bool Node::dfsreplace(int i, int j, std::map<std::pair<int, int>, int>& visited, std::vector<std::vector<char>>& board,bool &isSorrounded,std::vector<std::pair<int,int>> &curisland)
+{
+
+	bool up = true;
+	bool down = true;
+	bool left = true;
+	bool right = true;
+
+	visited[{i,j}]++;
+	curisland.push_back({i,j});
+
+	// checking if current O is at the edges of board , if so then it cant be considered sorrounded.
+
+	if (i == 0 || i == board.size() - 1)
+	{
+		isSorrounded = false;
+	}
+	if (j == 0 || j == board[0].size() - 1)
+	{
+		isSorrounded = false;
+	}
+
+	if (i - 1 >= 0)
+	{
+		// Up
+		auto it = visited.find({i-1,j});
+		if (board[i - 1][j] == 'O' && it == visited.end())
+		{
+			up = dfsreplace(i-1,j,visited,board,isSorrounded,curisland);
+		}
+	}
+	if (i + 1 < board.size())
+	{
+		// Down
+		auto it = visited.find({ i + 1,j });
+		if (board[i + 1][j] == 'O' && it == visited.end())
+		{
+			down = dfsreplace(i + 1, j, visited, board, isSorrounded, curisland);
+		}
+	}
+
+	if (j - 1 >= 0)
+	{
+		// left
+		auto it = visited.find({ i ,j - 1 });
+		if (board[i][j-1] == 'O' && it == visited.end())
+		{
+			left = dfsreplace(i , j - 1, visited, board, isSorrounded, curisland);
+		}
+	}
+	if (j + 1 < board[0].size())
+	{
+		// right
+		auto it = visited.find({ i ,j + 1 });
+		if (board[i][j+1] == 'O' && it == visited.end())
+		{
+			right = dfsreplace(i , j + 1, visited, board, isSorrounded, curisland);
+		}
+	}
+
+	return true;
+}
+
+void Node::solve(std::vector<std::vector<char>>& board) 
+{
+	std::map <std::pair <int, int>, int> visited;
+	std::vector<std::pair<int, int>> curisland;
+	bool curstatus = true;
+
+	for (int i = 0; i < board.size(); ++i)
+	{
+		for (int j = 0; j < board[0].size(); ++j)
+		{
+			auto it = visited.find({ i,j });
+
+			if (board[i][j] == 'O' && it == visited.end())
+			{
+				dfsreplace(i,j,visited,board,curstatus,curisland);
+
+				if (curstatus)
+				{
+					for (const auto& i : curisland)
+					{
+						board[i.first][i.second] = 'X';
+					}
+				}
+				curisland.clear();
+				curstatus = true;
+			}
+		}
 	}
 }
