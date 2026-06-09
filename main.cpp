@@ -6,16 +6,13 @@
 #include <cstdlib>
 #include <algorithm>
 #include "Graph.h"
+#include "Heap.h"
+#include "Dp.h"
+
 
 
 int main()
 {
-    int i = 0;
-    unsigned char a  = i ;
-    for (int j = 0; j < 256; ++j)
-    {
-        std::cout << a << " : " << int{ a } << std::endl;
-        a++;
-    }
+    int result = climbstairs(44);
     return 0;
 }
